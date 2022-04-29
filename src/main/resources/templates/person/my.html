@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/resources/css/style.css}">
+    <link rel="shortcut icon" type="image/png" th:href="@{/resources/favicon.ico}"/>
+</head>
+
+
+<body>
+
+<div class="wrapper">
+    <header th:replace="fragments/defaultHeader :: ${user!=null ? 'header_authorized' : 'header_unauthorized'} "></header>
+
+    <div class="content">
+        <p>Личная страница</p>
+        <p th:text="${user.getUsername()}">Личная страница</p>
+        <p th:text="${user.getEmail()}">Личная страница</p>
+        <p th:text="${user.getFirstname()}">Личная страница</p>
+        <p th:text="${user.getLastname()}">Личная страница</p>
+        <p th:text="${user.getAge()}">Личная страница</p>
+        <p th:text="${user.getId()}">Личная страница</p>
+        <p th:text="${user.getRoles()}">Личная страница</p>
+        <a href="#" th:href="@{'/publish'}">Добавить nft</a>
+    </div>
+
+
+
+    <footer th:replace="fragments/defaultFooter"></footer>
+</div>
+
+</body>
+</html>

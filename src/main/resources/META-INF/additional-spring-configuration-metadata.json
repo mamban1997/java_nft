@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "nft.imagePath",
+      "type": "java.lang.String",
+      "description": "nft storage path"
+    }
+  ] }

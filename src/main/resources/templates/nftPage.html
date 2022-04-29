@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/resources/css/style.css}">
+    <link rel="shortcut icon" type="image/png" th:href="@{/resources/favicon.ico}"/>
+</head>
+
+
+<body>
+
+<div class="wrapper">
+    <header th:replace="fragments/defaultHeader :: ${user!=null ? 'header_authorized' : 'header_unauthorized'} "></header>
+
+    <div class="content">
+        <img th:src="${nft.getPicture()}" alt="picture of nft"/>
+        <p th:text="${nft.getUniqNumber()}"></p>
+        <p th:text="${nft.getNftName()}"></p>
+        <p th:text="${nft.getId()}"></p>
+        <p th:text="${nft.getCreateDate()}"></p>
+    </div>
+    <footer th:replace="fragments/defaultFooter"></footer>
+</div>
+
+</body>
+</html>

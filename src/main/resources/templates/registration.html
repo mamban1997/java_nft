@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/resources/css/style.css}">
+    <link rel="stylesheet" href="../static/css/loginForm.css" th:href="@{/resources/css/loginForm.css}">
+    <link rel="shortcut icon" type="image/png" th:href="@{/resources/favicon.ico}"/>
+
+
+</head>
+
+
+<body>
+
+<div class="wrapper">
+    <header th:replace="fragments/defaultHeader :: header_unauthorized"></header>
+
+    <div class="content">
+
+        <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
+        <div class="login_form">
+            <div class="registration-cssave">
+                <form th:action="@{/registration}" method="post">
+                    <h3 class="text-center">Регистрация</h3>
+                    <div class="form-group">
+                        <label for="username"></label><input class="form-control item" type="text" name="username"
+                                                             maxlength="15" minlength="4" pattern="^[a-zA-Z0-9_.-]*$"
+                                                             id="username" placeholder="Логин" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username"></label><label for="email"></label><input class="form-control item" type="email" name="email"
+                                                                                        maxlength="30" minlength="4" pattern="^[a-zA-Z0-9_.-]*@[a-zA-Z0-9_.-]*"
+                                                                                        id="email" placeholder="E-mail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"></label><input class="form-control item" type="password" name="password"
+                                                             minlength="6" id="password" placeholder="Пароль" required>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block create-account" type="submit">Зарегистрироваться</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <footer th:replace="fragments/defaultFooter"></footer>
+</div>
+
+</body>
+</html>

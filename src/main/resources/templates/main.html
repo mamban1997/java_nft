@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/resources/css/style.css}">
+    <link rel="shortcut icon" type="image/png" th:href="@{/resources/favicon.ico}"/>
+</head>
+
+
+<body>
+
+<div class="wrapper">
+    <header th:replace="fragments/defaultHeader :: ${user!=null ? 'header_authorized' : 'header_unauthorized'} "></header>
+
+    <div class="content">
+        <div class="flex-container">
+            <!--/*@thymesVar id="nft" type="com.example.crypto.data.NftEntity"*/-->
+        <figure class="nft_item" th:each="nft : ${nfts}">
+            <!--/*@thymesVar id="nft" type="com.example.crypto.data.NftEntity"*/-->
+            <a href="#" th:href="@{'/nft/' + ${nft.getAlias() ?: nft.getUniqNumber()}}"><img th:src="${nft.getPicture()}" alt="Картинка nft"></a>
+            <figcaption class="fig_label" th:text="${nft.getNftName()}"></figcaption>
+        </figure>
+        </div>
+
+        <div class="page_number">
+            <a class="page_item" th:classappend="${0 == nfts.getNumber() ? 'page_current_item' : ''}" th:text="1" th:href="@{/page/1}" href="#">1</a>
+            <a class="page_item" th:classappend="${num == nfts.getNumber() + 1 ? 'page_current_item' : ''}" th:each="num : ${#numbers.sequence( 2, nfts.getTotalPages()-1, 1)}" th:text="${num}" th:href="@{'/page/' + ${num}}">5</a>
+            <a class="page_item" th:classappend="${nfts.getTotalPages() == nfts.getNumber() + 1 ? 'page_current_item' : ''}" th:text="${nfts.getTotalPages()}" href="#" th:href="@{'/page/' + ${nfts.getTotalPages()}}">999</a>
+        </div>
+    </div>
+
+
+    <footer th:replace="fragments/defaultFooter"></footer>
+</div>
+
+</body>
+</html>

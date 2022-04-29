@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/resources/css/style.css}">
+</head>
+
+
+<header th:fragment="header_unauthorized">
+    <div class="header">
+        <div class="header_full">
+            <div class="header__section">
+                <div class="header__item headerLogo">
+                    Ш
+                </div>
+                <div class="header__item headerButton"><a href="../main.html" th:href="@{/}" class="header_anchor">
+                    Главная
+                </a></div>
+                <div class="header__item headerButton"><a href="#" class="header_anchor">
+                    Новости
+                </a></div>
+                <div class="header__item headerButton"><a href="#" class="header_anchor">
+                    Аукцион
+                </a></div>
+                <div class="header__item searchbar" ><form>
+                    <label>
+                        <input type="search" name="q" placeholder="Поиск по сайту" class="searchbarLine">
+                    </label>
+                        <input type="submit" value="Искать" class="searchButton">
+                </form>
+                </div>
+            </div>
+            <div class="header__section">
+                <div class="header__item headerButton"><a href="#" class="header_anchor" th:href="@{/registration}">
+                    Регистрация
+                </a></div>
+                <div class="header__item headerButton"><a href="../login.html" th:href="@{/login}" class="header_anchor">
+                    Войти
+                </a></div>
+
+            </div>
+        </div>
+    </div>
+</header>
+<br/>
+<header th:fragment="header_authorized">
+    <!--/*@thymesVar id="user" type="com.example.crypto.security.model.User"*/-->
+    <div class="header">
+        <div class="header_full">
+            <div class="header__section">
+                <div class="header__item headerLogo">
+                    Ш
+                </div>
+                <div class="header__item headerButton" ><a href="#" class="header_anchor" th:href="@{/}">
+                    Главная
+                </a></div>
+                <div class="header__item headerButton"><a href="#" class="header_anchor">
+                    Новости
+                </a></div>
+                <div class="header__item headerButton"><a href="#" class="header_anchor">
+                    Аукцион
+                </a></div>
+                <div class="header__item searchbar" ><form>
+                    <label>
+                        <input type="search" name="q" placeholder="Поиск по сайту" class="searchbarLine">
+                    </label>
+                    <input type="submit" value="Искать" class="searchButton">
+                </form>
+                </div>
+            </div>
+            <div class="header__section">
+
+                <div class="header__item headerButton">
+                <a href="#" class="header_anchor" th:text="${user.getUsername()}" th:href="@{/my}">
+                    Профиль
+                </a></div>
+                <div class="header__item headerButton"><a href="#" class="header_anchor" th:href="@{/logout}">
+                    Выйти
+                </a></div>
+
+            </div>
+        </div>
+    </div>
+</header>
+
+<body>
+
+</body>
+</html>
