@@ -1,7 +1,9 @@
 package com.example.crypto.controllers;
 
 import com.example.crypto.data.NftDto;
+import com.example.crypto.data.NftEntity;
 import com.example.crypto.data.NftService;
+import com.example.crypto.exceptions.NftNotFoundException;
 import com.example.crypto.security.service.UserService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +41,12 @@ public class NftController {
         return "redirect:/";
     }
 
-    @GetMapping(value = "/image/123", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE})
-    public @ResponseBody
-    byte[] getImage() throws IOException {
+    @GetMapping(value = "/image/{uuid}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE})
+    @ResponseBody
+    public byte[] getImage(@PathVariable String uuid) throws IOException, NftNotFoundException {
+        //NftEntity nft = nftService.getNftByUniqNumberOrAlias(uuid);
 
-        File file = new File("C:\\Users\\bombe\\Desktop\\crypto_data\\storage\\loadFiles\\720_616d32dc82682c4d66f58f6e.jpg");
+        File file = new File("C:\\Users\\bombe\\Desktop\\crypto_data\\storage\\loadFiles\\" + uuid);
         InputStream in = new BufferedInputStream(new FileInputStream(file));
         return IOUtils.toByteArray(in);
     }

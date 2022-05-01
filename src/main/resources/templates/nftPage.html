@@ -14,11 +14,13 @@
     <header th:replace="fragments/defaultHeader :: ${user!=null ? 'header_authorized' : 'header_unauthorized'} "></header>
 
     <div class="content">
-        <img th:src="${nft.getPicture()}" alt="picture of nft"/>
+        <img  style="max-width: 1000px" th:src="@{${#strings.contains(nft.getPicture(), 'http') ? nft.getPicture() : '/image/' + nft.getPicture()}}" alt="Картинка nft"/>
         <p th:text="${nft.getUniqNumber()}"></p>
         <p th:text="${nft.getNftName()}"></p>
+        <p th:text="${nft.getDescription()}"></p>
         <p th:text="${nft.getId()}"></p>
         <p th:text="${nft.getCreateDate()}"></p>
+        <p th:text="${nft.getCurrentOwner()}"></p>
     </div>
     <footer th:replace="fragments/defaultFooter"></footer>
 </div>

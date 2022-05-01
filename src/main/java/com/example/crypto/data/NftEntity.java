@@ -24,6 +24,7 @@ public class NftEntity {
     private String uniqNumber;//GUID like e02fd0e4-00fd-090A-ca30-0d00a0038ba0
     private String alias;
     private String picture;
+    private String description;
     private LocalDateTime createDate;
 
     @ManyToOne

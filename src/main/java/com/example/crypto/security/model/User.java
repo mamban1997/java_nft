@@ -37,7 +37,7 @@ public class User {
     private Integer age;
     private LocalDateTime regDate;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany
     @ToString.Exclude
     private Set<Role> roles;
 

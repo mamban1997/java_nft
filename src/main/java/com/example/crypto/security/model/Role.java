@@ -21,7 +21,7 @@ public class Role {
     private Long id;
     private String name;
 
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "roles", cascade = {CascadeType.ALL})
     @ToString.Exclude
     private Set<User> users;
 

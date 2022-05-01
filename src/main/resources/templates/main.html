@@ -18,7 +18,7 @@
             <!--/*@thymesVar id="nft" type="com.example.crypto.data.NftEntity"*/-->
         <figure class="nft_item" th:each="nft : ${nfts}">
             <!--/*@thymesVar id="nft" type="com.example.crypto.data.NftEntity"*/-->
-            <a href="#" th:href="@{'/nft/' + ${nft.getAlias() ?: nft.getUniqNumber()}}"><img th:src="${nft.getPicture()}" alt="Картинка nft"></a>
+            <a href="#" th:href="@{'/nft/' + ${nft.getAlias() ?: nft.getUniqNumber()}}"><img style="max-width: 250px" th:src="@{${#strings.contains(nft.getPicture(), 'http') ? nft.getPicture() : '/image/' + nft.getPicture()}}" alt="Картинка nft"></a>
             <figcaption class="fig_label" th:text="${nft.getNftName()}"></figcaption>
         </figure>
         </div>

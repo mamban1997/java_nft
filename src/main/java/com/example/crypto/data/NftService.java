@@ -1,11 +1,13 @@
 package com.example.crypto.data;
 
 import com.example.crypto.exceptions.NftNotFoundException;
+import com.example.crypto.security.service.UserService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,13 +24,15 @@ public class NftService {
     private String nftImagePath;
 
     private final NftEntityRepository nftEntityRepository;
+    private final UserService userService;
 
-    public NftService(NftEntityRepository nftEntityRepository) {
+    public NftService(NftEntityRepository nftEntityRepository, UserService userService) {
         this.nftEntityRepository = nftEntityRepository;
+        this.userService = userService;
     }
 
     public Page<NftEntity> getPageOfNftEntity(int size, int offset) {
-        Pageable pageable = PageRequest.of(size, offset);
+        Pageable pageable = PageRequest.of(size, offset, Sort.by(Sort.Direction.DESC, "createDate"));
         return nftEntityRepository.findAll(pageable);
     }
 
@@ -61,7 +65,7 @@ public class NftService {
                 //noinspection ResultOfMethodCallIgnored
                 dir.mkdirs();
             }
-            File uploadedFile = new File(dir.getAbsolutePath() + File.separator + name);
+            File uploadedFile = new File(dir.getAbsolutePath() + File.separator + name+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.')));
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(uploadedFile));
             stream.write(bytes);
             stream.flush();
@@ -70,9 +74,10 @@ public class NftService {
             NftEntity nft = new NftEntity();
             nft.setCreateDate(LocalDateTime.now());
             nft.setNftName(nftDto.getName());
-            nft.setPicture(name);
+            nft.setPicture(name + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.')));
             nft.setUniqNumber(name);
-
+            nft.setDescription(nftDto.getDescription());
+            nft.setCurrentOwner(userService.getCurrentUser());
             nftEntityRepository.save(nft);
         }
     }

@@ -1,3 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+    --color-brand1: #F7B100;
+    --color-brand2: #D68400;
+    --color-brand3: #ED790C;
+    --color-brand4: #D64800;
+    --color-brand5: #F72F00;
+    --color-brand6: #8f1b01;
+    --color-black: #000000;
+    --color-white: #FFFFFF;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -6,6 +19,7 @@
 html,
 body {
     height: 100%;
+    font-family: 'Roboto', sans-serif;
 }
 
 .wrapper {
@@ -19,12 +33,18 @@ body {
 }
 
 .footer {
+    font-size: 24px;
     flex: 0 0 auto;
-    width: 100%;
+    max-width: 100%;
     height: 80px;
-    background: coral;
-    color: black;
+    background: var(--color-brand3);
+    color: var(--color-brand6);
     font-weight: bold;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 0 60px 20px 0;
+    border-top: 1px solid var(--color-brand6);
 }
 
 .header_anchor {
@@ -36,14 +56,18 @@ body {
     /*width: 100%;*/
     /*height: 100%;*/
 }
+.header_anchor:hover {
+    color:  var(--color-black);
+    font-size: 1.1rem;
+    padding: 10px 12px;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+}
 
 .header {
     width: 100%;
-    background: coral;
+    background: var(--color-brand3);
     color: #fff;
-    padding-bottom: 8px;
-    padding-top: 8px;
-    font-family: "Arial Black", sans-serif;
+    padding: 8px 0;
 }
 
 .header_full {
@@ -71,18 +95,19 @@ body {
 
 .headerButton {
     cursor: pointer;
-    background-color: chocolate;
+    background-color: transparent
 }
 
 .headerButton:hover {
-    background-color: darksalmon;
-    border-radius: 4px;
+    background-color: var(--color-brand1);
+    border-radius: 5px;
+    color: var(--color-black);
 }
 
 .searchbar {
     white-space: nowrap;
     outline: none;
-    border-radius: 10px;
+    border-radius: 0px;
     display: inline-block;
     justify-content: start;
 }
@@ -94,12 +119,12 @@ body {
 }
 
 .searchbarLine {
-    padding-left: 5px;
-    height: 2em;
+    padding: 0 10px;
+    height: 2rem;
     width: 250px;
     border: none;
     outline: none;
-    border-radius: 10px;
+    border-radius: 0px;
     transition: all .1s;
     transition-delay: .1s;
 }
@@ -107,10 +132,17 @@ body {
 .searchButton {
     padding: 5px 5px;
     margin-left: 1px;
-    background-color: chocolate;
-    border-color: chocolate;
+    background-color: transparent;
+    border-color: transparent;
     color: #fff;
-    font-family: "Arial Black", sans-serif;
+    font-size: 16px;
+}
+
+.searchButton:hover {
+    background-color: var(--color-brand1);
+    border-radius: 5px;
+    color: var(--color-black);
+    cursor: pointer;
 }
 .flex-container{
     margin-left: auto;
