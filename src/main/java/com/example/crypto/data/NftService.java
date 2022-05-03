@@ -54,32 +54,48 @@ public class NftService {
         }
     }
 
-    public void safeNewNft(NftDto nftDto) throws IOException {
+    public void safeNewNft(NftDto nftDto) throws Exception {
         MultipartFile file = nftDto.getFile();
-        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
         if (!file.isEmpty()) {
             byte[] bytes = file.getBytes();
-            String name = NftHelper.generateGuid();
+            String UUID = NftHelper.generateGuid();
+            String originalFileName = file.getOriginalFilename();
+
+            if (originalFileName==null || originalFileName.isEmpty()){
+                System.out.println("Ошибка файл без имени");
+                return;
+            }
+
+            String fileName = UUID + originalFileName.substring(originalFileName.lastIndexOf('.'));
             File dir = new File(nftImagePath + File.separator + "loadFiles");
             if (!dir.exists()) {
                 //noinspection ResultOfMethodCallIgnored
                 dir.mkdirs();
             }
-            File uploadedFile = new File(dir.getAbsolutePath() + File.separator + name+ file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.')));
+            File uploadedFile = new File(dir.getAbsolutePath() + File.separator + fileName);
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(uploadedFile));
             stream.write(bytes);
             stream.flush();
             stream.close();
 
-            NftEntity nft = new NftEntity();
-            nft.setCreateDate(LocalDateTime.now());
-            nft.setNftName(nftDto.getName());
-            nft.setPicture(name + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.')));
-            nft.setUniqNumber(name);
-            nft.setDescription(nftDto.getDescription());
-            nft.setCurrentOwner(userService.getCurrentUser());
+            NftEntity nft = createNftEntity(nftDto, UUID, fileName);
             nftEntityRepository.save(nft);
+        }else{
+            throw new Exception("Попытка сохранить пустую nft");
         }
+    }
+
+    private NftEntity createNftEntity(NftDto nftDto, String UUID, String fileName) {
+        NftEntity nft = new NftEntity();
+        nft.setCreateDate(LocalDateTime.now());
+        nft.setNftName(nftDto.getName());
+        nft.setPicture(fileName);
+        nft.setUniqNumber(UUID);
+        nft.setDescription(nftDto.getDescription());
+        nft.setCurrentOwner(userService.getCurrentUser());
+        PreviousOwner previousOwner = PreviousOwner.builder().previousOwner(userService.getCurrentUser()).nftEntity(nft).number(1).startOfOwnership(nft.getCreateDate()).build();
+        nft.getPreviousOwners().add(previousOwner);
+        return nft;
     }
 
 }

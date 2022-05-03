@@ -22,6 +22,12 @@
         <p th:text="${nft.getCreateDate()}"></p>
         <p th:text="${nft.getCurrentOwner()}"></p>
     </div>
+
+    <br/>
+
+    <div th:if="${nft.getCurrentOwner() == user}">
+        Текущий владелец на месте
+    </div>
     <footer th:replace="fragments/defaultFooter"></footer>
 </div>
 

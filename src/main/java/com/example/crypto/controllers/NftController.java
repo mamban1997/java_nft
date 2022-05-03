@@ -36,16 +36,14 @@ public class NftController {
     }
 
     @RequestMapping(value = "/upload_nft", method = RequestMethod.POST)
-    public String uploadFile(NftDto nftDto) throws IOException {
+    public String uploadFile(NftDto nftDto) throws Exception {
         nftService.safeNewNft(nftDto);
         return "redirect:/";
     }
 
     @GetMapping(value = "/image/{uuid}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ResponseBody
-    public byte[] getImage(@PathVariable String uuid) throws IOException, NftNotFoundException {
-        //NftEntity nft = nftService.getNftByUniqNumberOrAlias(uuid);
-
+    public byte[] getImage(@PathVariable String uuid) throws IOException {
         File file = new File("C:\\Users\\bombe\\Desktop\\crypto_data\\storage\\loadFiles\\" + uuid);
         InputStream in = new BufferedInputStream(new FileInputStream(file));
         return IOUtils.toByteArray(in);

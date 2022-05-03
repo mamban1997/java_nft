@@ -45,7 +45,7 @@ public class UserService implements IUserService {
         }
 
         HashSet<Role> userRoles = new HashSet<>();
-        userRoles.add(roleRepository.findByName("USER"));
+        userRoles.add(roleRepository.findByName("ROLE_USER"));
         User user = User.builder()
                 .username(registerDto.getUsername())
                 .email(registerDto.getEmail())
