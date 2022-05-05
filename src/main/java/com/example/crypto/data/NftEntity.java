@@ -30,7 +30,7 @@ public class NftEntity {
     private LocalDateTime createDate;
 
     @ColumnDefault("true")
-    private boolean isHide;
+    private Boolean hidden;
     private Double instantBuyPrice;
 
     @ManyToOne
@@ -45,7 +45,13 @@ public class NftEntity {
     @ToString.Exclude
     private List<PreviousOwner> previousOwners = new java.util.ArrayList<>();
 
+    public NftDto getDto(){
+        return NftDto.builder().alias(alias).description(description).instantBuyPrice(instantBuyPrice).Hidden(hidden).nftName(nftName).build();
+    }
 
+    public String getNumberOrAlias(){
+        return alias == null ? uniqNumber : alias;
+    }
 
 
 }

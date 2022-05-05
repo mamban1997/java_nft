@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/resources/css/style.css}">
+    <link rel="shortcut icon" type="image/png" th:href="@{/resources/favicon.ico}"/>
+</head>
+
+
+<body>
+
+<div class="wrapper">
+    <header th:replace="fragments/defaultHeader :: ${user!=null ? 'header_authorized' : 'header_unauthorized'} "></header>
+
+    <div class="content">
+        <img  style="max-width: 1000px" th:src="@{'/nft/image/' + ${nft.getPicture()}}" alt="Картинка nft"/>
+        <p th:text="${nft.getUniqNumber()}"></p>
+        <p th:text="${nft.getNftName()}"></p>
+        <p th:text="${nft.getDescription()}"></p>
+        <p th:text="${nft.getId()}"></p>
+        <p th:text="${nft.getCreateDate()}"></p>
+        <p th:text="${nft.getCurrentOwner()}"></p>
+    </div>
+
+    <br/>
+
+    <div th:if="${nft.getCurrentOwner() == user}">
+        <form action="#" th:action="@{'/nft/' + ${nft.getNumberOrAlias()} + '/edit'}" th:object="${nftDto}" method="post">
+            <label>Название
+                <input type="text" th:field="*{nftName}" />
+            </label>
+            <label>Описание
+                <input type="text" th:field="*{description}" />
+            </label>
+            <label>Алиас (короткая ссылка)
+                <input type="text" th:field="*{alias}" />
+            </label>
+            <label>Выставить цену мнгновенной покупки
+                <input type="text" th:field="*{instantBuyPrice}" />
+            </label>
+
+            <label>Видна другим пользователям
+                <input type="checkbox" th:field="*{hidden}" />
+            </label>
+
+                <input type="submit" value="submit"/>
+        </form>
+    </div>
+    <footer th:replace="fragments/defaultFooter"></footer>
+</div>
+
+</body>
+</html>

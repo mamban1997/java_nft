@@ -2,7 +2,6 @@ package com.example.crypto.data;
 
 import com.example.crypto.exceptions.NftNotFoundException;
 import com.example.crypto.security.service.UserService;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
@@ -54,7 +52,7 @@ public class NftService {
         }
     }
 
-    public void safeNewNft(NftDto nftDto) throws Exception {
+    public NftEntity safeNewNft(NftDto nftDto) throws Exception {
         MultipartFile file = nftDto.getFile();
         if (!file.isEmpty()) {
             byte[] bytes = file.getBytes();
@@ -63,7 +61,7 @@ public class NftService {
 
             if (originalFileName==null || originalFileName.isEmpty()){
                 System.out.println("Ошибка файл без имени");
-                return;
+                return null;
             }
 
             String fileName = UUID + originalFileName.substring(originalFileName.lastIndexOf('.'));
@@ -80,6 +78,7 @@ public class NftService {
 
             NftEntity nft = createNftEntity(nftDto, UUID, fileName);
             nftEntityRepository.save(nft);
+            return nft;
         }else{
             throw new Exception("Попытка сохранить пустую nft");
         }
@@ -88,7 +87,7 @@ public class NftService {
     private NftEntity createNftEntity(NftDto nftDto, String UUID, String fileName) {
         NftEntity nft = new NftEntity();
         nft.setCreateDate(LocalDateTime.now());
-        nft.setNftName(nftDto.getName());
+        nft.setNftName(nftDto.getNftName());
         nft.setPicture(fileName);
         nft.setUniqNumber(UUID);
         nft.setDescription(nftDto.getDescription());
@@ -98,4 +97,9 @@ public class NftService {
         return nft;
     }
 
+    public boolean updateNftDetails(NftEntity nftForUpdate, NftDto updatedValues) {
+nftForUpdate.setHidden(updatedValues.getHidden());
+nftEntityRepository.save(nftForUpdate);
+        return true;
+    }
 }

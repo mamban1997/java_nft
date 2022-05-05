@@ -6,19 +6,15 @@
     <link href="../../static/css/style.css" rel="stylesheet" th:href="@{/resources/css/style.css}">
     <link rel="shortcut icon" th:href="@{/resources/favicon.ico}" type="image/png"/>
 </head>
-
-
 <body>
 <style type="text/css">
 
 </style>
-
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
 <div class="wrapper">
     <header th:replace="fragments/defaultHeader :: ${user!=null ? 'header_authorized' : 'header_unauthorized'} "></header>
 
     <div class="content">
-        <form action="#" enctype="multipart/form-data" method="POST" th:action="@{'/upload_nft'}">
+        <form action="#" enctype="multipart/form-data" method="POST" th:action="@{'/nft/upload_nft'}">
             <input id="fileUpload" name="file" type="file"><br/><br/>
             <label>
                 <input name="name" type="text">
@@ -31,8 +27,6 @@
         <div id="image-holder">
         </div>
     </div>
-
-
     <footer th:replace="fragments/defaultFooter"></footer>
 </div>
 
@@ -43,11 +37,11 @@
         });
         document.querySelector("#fileUpload").addEventListener("change", function () {
             //Get count of selected files
-            var countFiles = this.files.length;
+            const countFiles = this.files.length;
             console.log(countFiles)
-            var imgPath = this.value;
-            var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
-            var image_holder = document.querySelector("#image-holder");
+            const imgPath = this.value;
+            const extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+            const image_holder = document.querySelector("#image-holder");
             image_holder.innerHTML = "";
             if ((extn === "gif" || extn === "png" || extn === "jpg" || extn === "jpeg") && (typeof (FileReader) != "undefined")) {
                     //loop for each file selected for uploaded.

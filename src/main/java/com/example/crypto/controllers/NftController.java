@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 
 @Controller
+@RequestMapping("/nft/")
 public class NftController {
     private final UserService userService;
     private final NftService nftService;
@@ -35,11 +36,33 @@ public class NftController {
         return "person/nft_publish";
     }
 
+    @GetMapping("/{numberOrAlias}")
+    public String getPageOfArt(@PathVariable String numberOrAlias, Model model) throws NftNotFoundException {
+        NftEntity nft = nftService.getNftByUniqNumberOrAlias(numberOrAlias);
+        model.addAttribute("nft", nft);
+        model.addAttribute("nftDto", nft.getDto());
+        return "nft_page";
+    }
+
     @RequestMapping(value = "/upload_nft", method = RequestMethod.POST)
     public String uploadFile(NftDto nftDto) throws Exception {
-        nftService.safeNewNft(nftDto);
+        NftEntity nft = nftService.safeNewNft(nftDto);
+        return "redirect:/nft/" + nft.getNumberOrAlias();
+    }
+
+
+    @RequestMapping(value = "/{numberOrAlias}/edit", method = RequestMethod.POST)
+    public String editNft(@PathVariable String numberOrAlias, NftDto nftDto) throws NftNotFoundException {
+        NftEntity nft = nftService.getNftByUniqNumberOrAlias(numberOrAlias);
+        nftService.updateNftDetails(nft, nftDto);
+        return "redirect:/nft/" + nft.getNumberOrAlias();
+    }
+    @RequestMapping(value = "/{numberOrAlias}/remove", method = RequestMethod.POST)
+    public String removeNft(NftEntity nft) {
+        //nftService.updateNftDetails(nftDto);
         return "redirect:/";
     }
+
 
     @GetMapping(value = "/image/{uuid}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ResponseBody
