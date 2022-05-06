@@ -3,6 +3,8 @@ package com.example.crypto.data;
 import com.example.crypto.security.model.User;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -42,6 +44,7 @@ public class NftEntity {
     private User creator;
 
     @OneToMany(mappedBy = "nftEntity",cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
     private List<PreviousOwner> previousOwners = new java.util.ArrayList<>();
 

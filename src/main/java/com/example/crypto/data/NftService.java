@@ -14,6 +14,9 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 public class NftService {
@@ -31,7 +34,7 @@ public class NftService {
 
     public Page<NftEntity> getPageOfNftEntity(int size, int offset) {
         Pageable pageable = PageRequest.of(size, offset, Sort.by(Sort.Direction.DESC, "createDate"));
-        return nftEntityRepository.findAll(pageable);
+        return nftEntityRepository.findAllByHidden(pageable, false);
     }
 
     public NftEntity getNftByUniqNumberOrAlias(String guidOrAlias) throws NftNotFoundException {
@@ -59,7 +62,7 @@ public class NftService {
             String UUID = NftHelper.generateGuid();
             String originalFileName = file.getOriginalFilename();
 
-            if (originalFileName==null || originalFileName.isEmpty()){
+            if (originalFileName == null || originalFileName.isEmpty()) {
                 System.out.println("Ошибка файл без имени");
                 return null;
             }
@@ -79,7 +82,7 @@ public class NftService {
             NftEntity nft = createNftEntity(nftDto, UUID, fileName);
             nftEntityRepository.save(nft);
             return nft;
-        }else{
+        } else {
             throw new Exception("Попытка сохранить пустую nft");
         }
     }
@@ -97,9 +100,32 @@ public class NftService {
         return nft;
     }
 
-    public boolean updateNftDetails(NftEntity nftForUpdate, NftDto updatedValues) {
-nftForUpdate.setHidden(updatedValues.getHidden());
-nftEntityRepository.save(nftForUpdate);
-        return true;
+    public void updateNftDetails(NftEntity nftForUpdate, NftDto updatedValues) {
+        List<String> changeList = new ArrayList<>();
+        if (nftForUpdate.getHidden() != updatedValues.getHidden()){
+            nftForUpdate.setHidden(updatedValues.getHidden());
+            changeList.add("hidden");
+        }
+        if (updatedValues.getAlias().isEmpty()){
+            nftForUpdate.setAlias(null);
+            changeList.add("alias");
+        }else if(!Objects.equals(updatedValues.getAlias(), nftForUpdate.getAlias())){
+            nftForUpdate.setAlias(updatedValues.getAlias());
+            changeList.add("alias");
+        }
+        if (!Objects.equals(nftForUpdate.getNftName(), updatedValues.getNftName()) && !updatedValues.getNftName().isEmpty()){
+            nftForUpdate.setNftName(updatedValues.getNftName());
+            changeList.add("nftName");
+        }
+        if (!Objects.equals(nftForUpdate.getDescription(), updatedValues.getDescription())){
+            nftForUpdate.setDescription(updatedValues.getDescription());
+            changeList.add("description");
+        }
+        if (!Objects.equals(nftForUpdate.getInstantBuyPrice(), updatedValues.getInstantBuyPrice())){
+            nftForUpdate.setInstantBuyPrice(updatedValues.getInstantBuyPrice());
+            changeList.add("instantBuyPrice");
+        }
+        nftForUpdate.setHidden(updatedValues.getHidden());
+        nftEntityRepository.save(nftForUpdate);
     }
 }
