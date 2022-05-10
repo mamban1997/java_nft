@@ -20,7 +20,7 @@
     <header th:fragment="header">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark  sticky-md-top ">
         <div class="container-lg">
-            <a href="" class="navbar-brand">Nft project</a>
+            <a href="#" th:href="@{/}" class="navbar-brand">Nft project</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarContent"
                 aria-controls="navbarContent" aria-expanded="false">
@@ -72,17 +72,20 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${user.getUsername()}" th:href="@{/my}">
                               Mamban
                             </a>
+                            
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
                               <li><a class="dropdown-item" href="#">Моя страница</a></li>
                               <li><a class="dropdown-item" href="#">Мои nft</a></li>
                               <li><a class="dropdown-item" href="#">Опубликовать nft</a></li>
                               <li><hr class="dropdown-divider"></li>
                               <li><a class="dropdown-item " href="#">Баланс: 100 Р</a></li>
+                              <li><a class="dropdown-item " href="#" th:href="@{/logout}">Выйти</a></li>
+
                             </ul>
                           </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a href="" th:href="@{/logout}" class="nav-link" aria-current="page">Выйти</a>
-                        </li>
+                        </li> -->
                     </ul>
 
                 </div>
