@@ -9,38 +9,38 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/resources/css/style.css}">
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/resources/css/style.css}">
 
 
     <title>crypto</title>
 </head>
-
+<!--/*@thymesVar id="user" type="com.example.crypto.security.model.User"*/-->
 <body>
-    <header th:fragment="header">
+<header th:fragment="header">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark  sticky-md-top ">
         <div class="container-lg">
             <a href="#" th:href="@{/}" class="navbar-brand">Nft project</a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarContent"
-                aria-controls="navbarContent" aria-expanded="false">
+                    aria-controls="navbarContent" aria-expanded="false">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
-            
+
+
 
             <div class="offcanvas offcanvas-end bg-dark" tabindex="-1" id="navbarContent"
-                aria-labelledby="offcanvasNavbarLabel" data-bs-scroll="true" data-bs-backdrop="true">
+                 aria-labelledby="offcanvasNavbarLabel" data-bs-scroll="true" data-bs-backdrop="true">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title text-white" id="offcanvasNavbarLabel">Меню</h5>
                     <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas"
-                        aria-label="Close"></button>
+                            aria-label="Close"></button>
                 </div>
 
-                
+
 
                 <div class="offcanvas-body justify-content-around">
-                    
+
                     <ul class="navbar-nav pe-3">
                         <li class="nav-item">
                             <a href="../main.html" th:href="@{/}" class="nav-link active" aria-current="page">Главная</a>
@@ -57,7 +57,7 @@
                         <input class="form-control me-2" type="search" placeholder="Поиск по сайту" aria-label="Search">
                         <button class="btn btn-outline-light" type="submit">Найти</button>
                     </form>
-                    
+
                     <ul class="navbar-nav pe-3" th:if="${user==null}">
                         <li class="nav-item">
                             <a href="#" th:href="@{/registration}" class="nav-link">Регистрация</a>
@@ -70,19 +70,19 @@
                     <ul class="navbar-nav pe-3" th:if="${user!=null}">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${user.getUsername()}" th:href="@{/my}">
-                              Mamban
+                                Mamban
                             </a>
-                            
+
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-                              <li><a class="dropdown-item" href="#">Моя страница</a></li>
-                              <li><a class="dropdown-item" href="#">Мои nft</a></li>
-                              <li><a class="dropdown-item" href="#">Опубликовать nft</a></li>
-                              <li><hr class="dropdown-divider"></li>
-                              <li><a class="dropdown-item " href="#">Баланс: 100 Р</a></li>
-                              <li><a class="dropdown-item " href="#" th:href="@{/logout}">Выйти</a></li>
+                                <li><a class="dropdown-item" href="#">Моя страница</a></li>
+                                <li><a class="dropdown-item" href="#">Мои nft</a></li>
+                                <li><a class="dropdown-item" href="#">Опубликовать nft</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item " href="#" th:text="'Баланс: ' + ${user.getBalance()} + 'Р'">Баланс: 100 Р</a></li>
+                                <li><a class="dropdown-item " href="#" th:href="@{/logout}">Выйти</a></li>
 
                             </ul>
-                          </li>
+                        </li>
                         <!-- <li class="nav-item">
                             <a href="" th:href="@{/logout}" class="nav-link" aria-current="page">Выйти</a>
                         </li> -->
@@ -94,10 +94,11 @@
 
     </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+
+</header>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
-    </header>
 </body>
 
 </html>
