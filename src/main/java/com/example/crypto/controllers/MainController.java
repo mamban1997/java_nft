@@ -47,7 +47,7 @@ public class MainController {
     }
 
     @GetMapping("/page/{number}")
-    public String getPageOfArt(@PathVariable Integer number, Model model){
+    public String getPageOfNfts(@PathVariable Integer number, Model model){
         Page<NftEntity> pageOfNftEntity = nftService.getPageOfNftEntity(number - 1, 12);
         model.addAttribute("nfts", pageOfNftEntity);
         return "main";
@@ -58,4 +58,11 @@ public class MainController {
         return "person/my";
     }
 
+    @GetMapping("/my/nfts/{number}")
+    public String getMyPageOfNfts(@PathVariable Integer number, Model model) {
+        Page<NftEntity> pageOfNftEntity = nftService.getPageOfNftEntity(number - 1, 12);
+        model.addAttribute("nfts", pageOfNftEntity);
+        return "main";
+
+    }
 }

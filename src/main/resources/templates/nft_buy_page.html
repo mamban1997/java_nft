@@ -31,29 +31,12 @@
     </div>
 
     <br/>
-
-    <div th:if="${nft.getCurrentOwner() == user}">
-        <form action="#" th:action="@{'/nft/' + ${nft.getNumberOrAlias()} + '/edit'}" th:object="${nftDto}" method="post">
-            <label>Название
-                <input type="text" th:field="*{nftName}" />
-            </label>
-            <label>Описание
-                <input type="text" th:field="*{description}" />
-            </label>
-            <label>Алиас (короткая ссылка)
-                <input type="text" th:field="*{alias}" />
-            </label>
-            <label>Выставить цену мгновенной покупки
-                <input type="text" th:field="*{instantBuyPrice}" />
-            </label>
-
-            <label>Не видна другим пользователям
-                <input type="checkbox" th:field="*{hidden}" />
-            </label>
-
-                <input type="submit" value="submit"/>
-        </form>
-    </div>
+    <form th:action="${'/nft/' + nft.getNumberOrAlias() + '/buy'}" method="post">
+        <button type="submit" value="submit">купить</button>
+    </form>
+    <form th:action="${'/nft/' + nft.getNumberOrAlias() + '/offer'}" method="post">
+        <input type="submit" value="Предложить цену" >
+    </form>
     <footer th:replace="fragments/defaultFooter :: footer"></footer>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -63,5 +46,6 @@
     <!--            crossorigin="anonymous"-->
 
 </script>
+
 </body>
 </html>

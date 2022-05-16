@@ -74,11 +74,11 @@
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Моя страница</a></li>
-                                <li><a class="dropdown-item" href="#">Мои nft</a></li>
-                                <li><a class="dropdown-item" href="#">Опубликовать nft</a></li>
+                                <li><a class="dropdown-item" href="#" th:href="@{/my}">Моя страница</a></li>
+                                <li><a class="dropdown-item" href="#" th:href="@{/my/nfts/1}">Мои nft</a></li>
+                                <li><a class="dropdown-item" href="#" th:href="@{/nft/publish}">Опубликовать nft</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item " href="#" th:text="'Баланс: ' + ${user.getBalance()} + 'Р'">Баланс: 100 Р</a></li>
+                                <li><a class="dropdown-item " href="#" th:text="'Баланс: ' + ${user.getStringBalance()} + 'Р'" th:href="@{/balance}">Баланс: 100 Р</a></li>
                                 <li><a class="dropdown-item " href="#" th:href="@{/logout}">Выйти</a></li>
 
                             </ul>

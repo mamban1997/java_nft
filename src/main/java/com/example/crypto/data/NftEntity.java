@@ -43,7 +43,7 @@ public class NftEntity {
     @ToString.Exclude
     private User creator;
 
-    @OneToMany(mappedBy = "nftEntity",cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "nftEntity",cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
     private List<PreviousOwner> previousOwners = new java.util.ArrayList<>();
@@ -56,5 +56,7 @@ public class NftEntity {
         return alias == null ? uniqNumber : alias;
     }
 
-
+    public String getStringPrice() {
+        return String.format("%,.2f", getInstantBuyPrice());
+    }
 }

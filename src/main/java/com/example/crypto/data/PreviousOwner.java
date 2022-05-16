@@ -28,7 +28,7 @@ public class PreviousOwner {
 
     private Integer number;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "nft_entity_id")
     private NftEntity nftEntity;
 

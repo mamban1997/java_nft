@@ -34,7 +34,6 @@ public class User {
     private String lastname;
     private Integer age;
     private LocalDateTime regDate;
-    @ColumnDefault("100")
     private Double balance;
 
     @ManyToMany
@@ -56,5 +55,8 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, username, email);
+    }
+    public String getStringBalance() {
+        return String.format("%,.2f", getBalance());
     }
 }

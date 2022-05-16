@@ -4,6 +4,7 @@ import com.example.crypto.data.NftDto;
 import com.example.crypto.data.NftEntity;
 import com.example.crypto.data.NftService;
 import com.example.crypto.exceptions.NftNotFoundException;
+import com.example.crypto.security.model.User;
 import com.example.crypto.security.service.UserService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,22 @@ public class NftController {
     public String removeNft(NftEntity nft) {
         //nftService.updateNftDetails(nftDto);
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/{numberOrAlias}/buy", method = RequestMethod.GET)
+    public String buyNftPage(@PathVariable String numberOrAlias, Model model) throws NftNotFoundException {
+        NftEntity nft = nftService.getNftByUniqNumberOrAlias(numberOrAlias);
+        model.addAttribute("nft", nft);
+        return "nft_buy_page";
+    }
+
+    @RequestMapping(value = "/{numberOrAlias}/buy", method = RequestMethod.POST)
+    public String buyNftAction(@PathVariable String numberOrAlias, Model model) throws NftNotFoundException {
+        User buyer = userService.getCurrentUser();
+
+        NftEntity nft = nftService.instantBuyNft(numberOrAlias, buyer);
+        model.addAttribute("nft", nft);
+        return "redirect:/nft/" + nft.getNumberOrAlias();
     }
 
 

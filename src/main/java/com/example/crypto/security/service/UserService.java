@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -36,11 +35,11 @@ public class UserService implements IUserService {
     @Override
     public User registerNewUserAccount(RegisterDto registerDto) {
         User userByLogin = userRepository.getUsersByUsername(registerDto.getUsername());
-        if (userByLogin!=null){
+        if (userByLogin != null) {
             return null;
         }
         User userByEmail = userRepository.getUsersByEmail(registerDto.getEmail());
-        if (userByEmail!=null){
+        if (userByEmail != null) {
             return null;
         }
 
@@ -52,6 +51,7 @@ public class UserService implements IUserService {
                 .password(passwordEncoder.encode(registerDto.getPassword()))
                 .roles(userRoles)
                 .regDate(LocalDateTime.now())
+                .balance(100d)
                 .build();
 
         userRepository.save(user);
@@ -67,7 +67,12 @@ public class UserService implements IUserService {
         } else if (principal instanceof CryptoUserDetails) {
             return ((CryptoUserDetails) principal).getUser();
         }
+
         Logger.getLogger("qwe").info("Неизвестная ситуация в гет куррент юзер");
         return null;
+    }
+
+    public User updateUser(User user) {
+        return userRepository.save(user);
     }
 }

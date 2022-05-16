@@ -1,6 +1,7 @@
 package com.example.crypto.data;
 
 import com.example.crypto.exceptions.NftNotFoundException;
+import com.example.crypto.security.model.User;
 import com.example.crypto.security.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedOutputStream;
@@ -15,6 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -87,12 +90,20 @@ public class NftService {
         }
     }
 
+    public Page<NftEntity> getAllNftCurrentUser(){
+        User currentUser = userService.getCurrentUser();
+        return null;
+
+
+    }
+
     private NftEntity createNftEntity(NftDto nftDto, String UUID, String fileName) {
         NftEntity nft = new NftEntity();
         nft.setCreateDate(LocalDateTime.now());
         nft.setNftName(nftDto.getNftName());
         nft.setPicture(fileName);
         nft.setUniqNumber(UUID);
+        nft.setHidden(true);
         nft.setDescription(nftDto.getDescription());
         nft.setCurrentOwner(userService.getCurrentUser());
         PreviousOwner previousOwner = PreviousOwner.builder().previousOwner(userService.getCurrentUser()).nftEntity(nft).number(1).startOfOwnership(nft.getCreateDate()).build();
@@ -102,30 +113,72 @@ public class NftService {
 
     public void updateNftDetails(NftEntity nftForUpdate, NftDto updatedValues) {
         List<String> changeList = new ArrayList<>();
-        if (nftForUpdate.getHidden() != updatedValues.getHidden()){
+        if (nftForUpdate.getHidden() != updatedValues.getHidden()) {
             nftForUpdate.setHidden(updatedValues.getHidden());
             changeList.add("hidden");
         }
-        if (updatedValues.getAlias().isEmpty()){
+        if (updatedValues.getAlias().isEmpty()) {
             nftForUpdate.setAlias(null);
             changeList.add("alias");
-        }else if(!Objects.equals(updatedValues.getAlias(), nftForUpdate.getAlias())){
+        } else if (!Objects.equals(updatedValues.getAlias(), nftForUpdate.getAlias())) {
             nftForUpdate.setAlias(updatedValues.getAlias());
             changeList.add("alias");
         }
-        if (!Objects.equals(nftForUpdate.getNftName(), updatedValues.getNftName()) && !updatedValues.getNftName().isEmpty()){
+        if (!Objects.equals(nftForUpdate.getNftName(), updatedValues.getNftName()) && !updatedValues.getNftName().isEmpty()) {
             nftForUpdate.setNftName(updatedValues.getNftName());
             changeList.add("nftName");
         }
-        if (!Objects.equals(nftForUpdate.getDescription(), updatedValues.getDescription())){
+        if (!Objects.equals(nftForUpdate.getDescription(), updatedValues.getDescription())) {
             nftForUpdate.setDescription(updatedValues.getDescription());
             changeList.add("description");
         }
-        if (!Objects.equals(nftForUpdate.getInstantBuyPrice(), updatedValues.getInstantBuyPrice())){
+        if (!Objects.equals(nftForUpdate.getInstantBuyPrice(), updatedValues.getInstantBuyPrice())) {
             nftForUpdate.setInstantBuyPrice(updatedValues.getInstantBuyPrice());
             changeList.add("instantBuyPrice");
         }
         nftForUpdate.setHidden(updatedValues.getHidden());
         nftEntityRepository.save(nftForUpdate);
+    }
+
+    @Transactional
+    public NftEntity instantBuyNft(String numberOrAlias, User buyer) throws NftNotFoundException {
+        NftEntity nft = getNftByUniqNumberOrAlias(numberOrAlias);
+        if (nft.getCurrentOwner().equals(buyer)) {
+            return null;
+        }
+        Double buyerBalance = buyer.getBalance();
+        Double nftPrice = nft.getInstantBuyPrice();
+        if (nftPrice == null) {
+            return null;
+        }
+
+        if (buyerBalance < nftPrice) {
+            return null;
+
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        User nftOwner = nft.getCurrentOwner();
+        List<PreviousOwner> previousOwners = nft.getPreviousOwners();
+        PreviousOwner previousOwner = previousOwners.stream().max(Comparator.comparingInt(PreviousOwner::getNumber)).get();
+        previousOwner.setFinishOfOwnership(now);
+        previousOwner.setSellingPrice(nftPrice);
+
+        Integer lastNumber = previousOwner.getNumber();
+        PreviousOwner currentPreviousOwner = PreviousOwner.builder().previousOwner(buyer).nftEntity(nft).number(lastNumber + 1).startOfOwnership(now).purchasePrice(nftPrice).build();
+        previousOwners.add(currentPreviousOwner);
+        nft.setPreviousOwners(previousOwners);
+        nftOwner.setBalance(nftOwner.getBalance() + nftPrice);
+        buyer.setBalance(buyer.getBalance() - nftPrice);
+
+        nft.setCurrentOwner(buyer);
+        nft.setInstantBuyPrice(null);
+        nft.setHidden(false);
+
+
+        userService.updateUser(buyer);
+        userService.updateUser(nftOwner);
+
+        return nftEntityRepository.save(nft);
     }
 }
