@@ -1,8 +1,8 @@
 package com.example.crypto.controllers;
 
-import com.example.crypto.data.NftDto;
-import com.example.crypto.data.NftEntity;
-import com.example.crypto.data.NftService;
+import com.example.crypto.services.NftDto;
+import com.example.crypto.entities.NftEntity;
+import com.example.crypto.services.NftService;
 import com.example.crypto.exceptions.NftNotFoundException;
 import com.example.crypto.security.model.User;
 import com.example.crypto.security.service.UserService;

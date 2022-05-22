@@ -1,8 +1,7 @@
-package com.example.crypto.data;
+package com.example.crypto.services;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;

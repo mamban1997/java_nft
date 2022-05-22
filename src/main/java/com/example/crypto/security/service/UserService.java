@@ -1,5 +1,6 @@
 package com.example.crypto.security.service;
 
+import com.example.crypto.services.MailService;
 import com.example.crypto.security.model.CryptoUserDetails;
 import com.example.crypto.security.model.RegisterDto;
 import com.example.crypto.security.model.Role;
@@ -24,12 +25,14 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, MailService mailService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mailService = mailService;
     }
 
     @Override
@@ -72,7 +75,8 @@ public class UserService implements IUserService {
         return null;
     }
 
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
+
 }

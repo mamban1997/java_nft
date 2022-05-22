@@ -29,8 +29,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        String [] publicUrls = new String [] {
+                "/api/v1/**",
+                "/login",
+                "/registration/send_code"
+        };
+
         http
-//                .csrf()
+                .csrf()
+                .ignoringAntMatchers(publicUrls)
+                .and()
 //                .disable()
                 .authorizeRequests()
                 .antMatchers("/", "/resources/**","/registration/**","/page/**","/nft/*","/image/**", "/**").permitAll()

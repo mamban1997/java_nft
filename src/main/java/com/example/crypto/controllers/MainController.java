@@ -1,21 +1,14 @@
 package com.example.crypto.controllers;
 
 
-import com.example.crypto.data.NftDto;
-import com.example.crypto.data.NftEntity;
-import com.example.crypto.data.NftService;
-import com.example.crypto.exceptions.NftNotFoundException;
+import com.example.crypto.entities.NftEntity;
+import com.example.crypto.services.NftService;
 import com.example.crypto.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 @Controller
 public class MainController {

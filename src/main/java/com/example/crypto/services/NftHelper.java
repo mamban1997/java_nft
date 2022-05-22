@@ -1,6 +1,4 @@
-package com.example.crypto.data;
-
-import org.hibernate.id.GUIDGenerator;
+package com.example.crypto.services;
 
 import java.util.UUID;
 import java.util.regex.Matcher;

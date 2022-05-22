@@ -1,15 +1,9 @@
 package com.example.crypto.security.model;
 
-import com.example.crypto.data.NftEntity;
+import com.example.crypto.entities.NftEntity;
 import lombok.*;
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 

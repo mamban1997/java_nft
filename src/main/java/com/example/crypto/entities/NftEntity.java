@@ -1,6 +1,7 @@
-package com.example.crypto.data;
+package com.example.crypto.entities;
 
 import com.example.crypto.security.model.User;
+import com.example.crypto.services.NftDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
@@ -46,7 +47,7 @@ public class NftEntity {
     @OneToMany(mappedBy = "nftEntity",cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ToString.Exclude
-    private List<PreviousOwner> previousOwners = new java.util.ArrayList<>();
+    private List<PreviousOwnerEntity> previousOwnerEntities = new java.util.ArrayList<>();
 
     public NftDto getDto(){
         return NftDto.builder().alias(alias).description(description).instantBuyPrice(instantBuyPrice).Hidden(hidden).nftName(nftName).build();

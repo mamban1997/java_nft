@@ -1,6 +1,9 @@
-package com.example.crypto.data;
+package com.example.crypto.services;
 
+import com.example.crypto.entities.NftEntity;
+import com.example.crypto.entities.PreviousOwnerEntity;
 import com.example.crypto.exceptions.NftNotFoundException;
+import com.example.crypto.repositories.NftEntityRepository;
 import com.example.crypto.security.model.User;
 import com.example.crypto.security.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
@@ -106,8 +109,8 @@ public class NftService {
         nft.setHidden(true);
         nft.setDescription(nftDto.getDescription());
         nft.setCurrentOwner(userService.getCurrentUser());
-        PreviousOwner previousOwner = PreviousOwner.builder().previousOwner(userService.getCurrentUser()).nftEntity(nft).number(1).startOfOwnership(nft.getCreateDate()).build();
-        nft.getPreviousOwners().add(previousOwner);
+        PreviousOwnerEntity previousOwnerEntity = PreviousOwnerEntity.builder().previousOwner(userService.getCurrentUser()).nftEntity(nft).number(1).startOfOwnership(nft.getCreateDate()).build();
+        nft.getPreviousOwnerEntities().add(previousOwnerEntity);
         return nft;
     }
 
@@ -159,15 +162,15 @@ public class NftService {
 
         LocalDateTime now = LocalDateTime.now();
         User nftOwner = nft.getCurrentOwner();
-        List<PreviousOwner> previousOwners = nft.getPreviousOwners();
-        PreviousOwner previousOwner = previousOwners.stream().max(Comparator.comparingInt(PreviousOwner::getNumber)).get();
-        previousOwner.setFinishOfOwnership(now);
-        previousOwner.setSellingPrice(nftPrice);
+        List<PreviousOwnerEntity> previousOwnerEntities = nft.getPreviousOwnerEntities();
+        PreviousOwnerEntity previousOwnerEntity = previousOwnerEntities.stream().max(Comparator.comparingInt(PreviousOwnerEntity::getNumber)).get();
+        previousOwnerEntity.setFinishOfOwnership(now);
+        previousOwnerEntity.setSellingPrice(nftPrice);
 
-        Integer lastNumber = previousOwner.getNumber();
-        PreviousOwner currentPreviousOwner = PreviousOwner.builder().previousOwner(buyer).nftEntity(nft).number(lastNumber + 1).startOfOwnership(now).purchasePrice(nftPrice).build();
-        previousOwners.add(currentPreviousOwner);
-        nft.setPreviousOwners(previousOwners);
+        Integer lastNumber = previousOwnerEntity.getNumber();
+        PreviousOwnerEntity currentPreviousOwnerEntity = PreviousOwnerEntity.builder().previousOwner(buyer).nftEntity(nft).number(lastNumber + 1).startOfOwnership(now).purchasePrice(nftPrice).build();
+        previousOwnerEntities.add(currentPreviousOwnerEntity);
+        nft.setPreviousOwnerEntities(previousOwnerEntities);
         nftOwner.setBalance(nftOwner.getBalance() + nftPrice);
         buyer.setBalance(buyer.getBalance() - nftPrice);
 

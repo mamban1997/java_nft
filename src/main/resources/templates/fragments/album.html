@@ -21,10 +21,10 @@
             <div class="album py-5" th:fragment="album(prefixPath)">
                 <div class="container">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4 g-2">
-                        <!--/*@thymesVar id="nfts" type="org.springframework.data.domain.Page<com.example.crypto.data.NftEntity>"*/-->
+                        <!--/*@thymesVar id="nfts" type="org.springframework.data.domain.Page<com.example.crypto.entities.NftEntity>"*/-->
                         <div class="col" th:each="nft : ${nfts}">
                             <div class="card shadow-sm h-100">
-                                <!--/*@thymesVar id="nft" type="com.example.crypto.data.NftEntity"*/-->
+                                <!--/*@thymesVar id="nft" type="com.example.crypto.entities.NftEntity"*/-->
                                 <a href="#" th:href="@{'/nft/' + ${nft.getNumberOrAlias()}}"><img
                                         src="https://static.mk.ru/upload/entities/2022/04/03/11/articles/detailPicture/bd/1a/e2/ee/71bd41fc9bd248f7ee1468b348225c8a.jpg"
                                         th:src="@{'/nft/image/' + ${nft.getPicture()}}" alt="Картинка nft"
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <!--/*@thymesVar id="nfts" type="org.springframework.data.domain.Page<com.example.crypto.data.NftEntity>"*/-->
+                <!--/*@thymesVar id="nfts" type="org.springframework.data.domain.Page<com.example.crypto.entities.NftEntity>"*/-->
                 <div th:if="${nfts.getTotalPages()>1}" class="mt-3">
                     <nav>
                         <ul class="paging pagination justify-content-center flex-wrap" th:if="${nfts.getTotalPages() > 1}">

@@ -1,4 +1,4 @@
-package com.example.crypto.data;
+package com.example.crypto.entities;
 
 import com.example.crypto.security.model.User;
 import lombok.*;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name = "previous_owner")
-public class PreviousOwner {
+public class PreviousOwnerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
