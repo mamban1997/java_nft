@@ -8,4 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Long> {
+
+    VerificationToken findByEmailAndActionEqualsAndActive(String email, VerificationToken.Action action, boolean active);
 }

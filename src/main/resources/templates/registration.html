@@ -77,18 +77,37 @@
 </script>
 <script>
     let sampleForm = document.getElementById("form");
-    console.log(sampleForm)
-    sampleForm.addEventListener("click", async (e) => {
+    let submitButton = document.getElementById("send_code");
+    submitButton.addEventListener("click", async (e) => {
         e.preventDefault();
-        let formData = new FormData(e.currentTarget);
+        let formData = new FormData(sampleForm);
         let formDataObject = Object.fromEntries(formData.entries());
         let formDataJsonString = JSON.stringify(formDataObject);
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/registration/send_code", true);
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onload = () => console.log(xhr.responseText);
-        xhr.send(formDataJsonString);
+        console.log(formDataJsonString)
+        if (formData.get("email") !== undefined && formData.get("email") !== ""){
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/registration/send_code", false);
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onload = () => console.log(xhr.responseText);
+            xhr.send(formDataJsonString);
+
+            if (document.getElementById('submit_email_status')==null) {
+                const p = document.createElement("p");
+                p.textContent = xhr.responseText;
+                p.classList.add("text-success")
+                p.id = "submit_email_status"
+                submitButton.parentElement.appendChild(p);
+            } else {
+                const p = document.createElement("p");
+                p.textContent = xhr.responseText;
+                p.classList.add("text-success")
+                p.id = "submit_email_status"
+                document.getElementById("submit_email_status").replaceWith(p) ;
+            }
+        }else{
+            alert("Укажите email")
+        }
     })
 </script>
 </body>

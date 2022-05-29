@@ -1,7 +1,5 @@
 package com.example.crypto.entities;
 
-
-import com.example.crypto.security.model.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,13 +22,16 @@ public class VerificationToken {
     private String token;
     private String email;
     private boolean active;
+    private LocalDateTime createDate;
     private LocalDateTime expiryDate;
-    private Integer action;
+    private Action action;
     //1-reg
     //2-load nft
 
-//    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-//    @JoinColumn(nullable = false, name = "id")
-//    private User user;
+public enum Action{
+    ACTION_REGISTRATION,
+    ACTION_LOAD_NFT,
+    ACTION_TEST
+}
 
 }

@@ -99,7 +99,7 @@
                                 <a class="page-link" th:href="@{${prefixPath} + ${nfts.getNumber() + 2}}"><span aria-hidden="true">&raquo;</span></a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" th:href="@{${prefixPath} + '/' + ${nfts.getTotalPages()}}">Last</a>
+                                <a class="page-link" th:href="@{${prefixPath} + ${nfts.getTotalPages()}}">Last</a>
                             </li>
                         </ul>
                     </nav>
